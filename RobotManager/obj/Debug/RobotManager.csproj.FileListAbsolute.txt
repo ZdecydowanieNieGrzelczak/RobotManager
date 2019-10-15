@@ -21,3 +21,5 @@ H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\MahApps.Metro.pdb
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\MahApps.Metro.xml
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.csproj.CopyComplete
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\App.baml
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\AddRobotWindow.g.cs
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\AddRobotWindow.baml

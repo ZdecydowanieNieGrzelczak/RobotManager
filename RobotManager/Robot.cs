@@ -9,13 +9,33 @@ namespace RobotManager
     public class Robot
     {
         private string _name;
-        public string name { set; get; }
+        public string name
+        {
+            get => _name;
+            set
+            {
+                name = value;
+            }
+        }
 
         private string _groupName;
-        public string groupName { set; get; }
+        public string GroupName {
+            set
+            {
+                GroupName = value;
+            }
+            get => _groupName;
+        }
 
         private string _color;
-        public string color;
+        public string color
+        {
+            set
+            {
+                color = value;
+            }
+            get => _color;
+        }
 
         public Robot(string newName, string newGroupName, string newColor)
         {

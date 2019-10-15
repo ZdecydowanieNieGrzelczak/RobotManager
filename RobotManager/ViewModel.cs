@@ -10,7 +10,7 @@ namespace RobotManager
 {
     public class ViewModel : ViewModelBase
     {
-        private Robot[] _robots = new Robot[10];
+        private Robot[] _robots;
         public Robot[] robots
         {
             get => _robots;
@@ -28,11 +28,19 @@ namespace RobotManager
         private readonly DelegateCommand _changeNameCommand;
         public ICommand ChangeNameCommand => _changeNameCommand;
 
+        private readonly DelegateCommand _addNewRobotCommand;
+        public ICommand AddNewRobotCommand => _addNewRobotCommand;
+        
+
 
         public ViewModel()
         {
             _changeNameCommand = new DelegateCommand(OnChangeName, CanChangeName);
-
+            _addNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddNewRobot);
+            robots = new Robot[3];
+            robots[0] = new Robot("F10N4", "Transport", "red");
+            robots[1] = new Robot("P3DR0", "Cleaning", "blue");
+            robots[2] = new Robot("1544C", "Warehouse", "pink");
 
         }
 
@@ -45,6 +53,17 @@ namespace RobotManager
         private bool CanChangeName(object commandParameter)
         {
             return name != "W4lt3r";
+        }
+
+        private void OnAddNewRobot(object commandParameter)
+        {
+            AddRobotWindow addRobotWindow = new AddRobotWindow();
+            addRobotWindow.Show();
+        }
+
+        private bool CanAddNewRobot(object commandParameter)
+        {
+            return true;
         }
     }
 }
