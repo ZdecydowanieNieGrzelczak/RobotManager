@@ -22,7 +22,18 @@ namespace RobotManager
     {
         public AddRobotWindow()
         {
+            var NRviewModel = new NewRobotViewModel();
+
+            DataContext = NRviewModel;
             InitializeComponent();
         }
+
+        private void SplitButton_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
     }
 }

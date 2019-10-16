@@ -8,11 +8,69 @@
         xmlns:local="clr-namespace:RobotManager"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="MainWindow" Height="600" Width="800">
-    <Canvas>
-        <TextBox Controls:TextBoxHelper.Watermark="Please enter robot name here" Canvas.Top="30" Canvas.Left="20" TextWrapping="NoWrap" />
-        <TextBox Controls:TextBoxHelper.Watermark="Please enter group name here" Canvas.Top="70" Canvas.Left="20"/>
-        <TextBox Controls:TextBoxHelper.Watermark="Please enter robot color here" Canvas.Top="110" Canvas.Left="20" />
+        Title="MainWindow" Height="300" Width="400">
+
+    
+        <Canvas>
+        <TabControl>
+            <TabItem Header="General">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Enter the name:" />
+                    <TextBox Grid.Row="1" Controls:TextBoxHelper.Watermark="All chars allowed"/>
+                    <Label Grid.Row="2" Content="Currently selected group:" />
+                    <Controls:SplitButton  VerticalContentAlignment="Center" SelectedItem="{Binding groups[0]}"  ItemsSource="{Binding groups}" Grid.Row="3"  />
+
+                </Grid>
+       
+            </TabItem>
+            <TabItem Header="Features" >
+                <Grid Margin="0, 30,0,5">
+                    
+                    <ItemsControl ItemsSource="{Binding featuresList}">
+                        <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="20, 8,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Column="0" Text="{Binding featureName}" />
+                                 <Slider Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5" TickFrequency="1" TickPlacement="TopLeft" Value="{Binding magnitude}" />
+                                 <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{Binding Path=featureSymbols[0]}"/>
+                             </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Skills">
+
+                <Grid Margin="0, 0,0,5">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding skillsList}" ScrollViewer.CanContentScroll="True">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Controls:ToggleSwitch Header="{Binding skillName}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    </ScrollViewer>
+
+                </Grid>
+                
+            </TabItem>
+            <TabItem Header="Submit">
+                
+            </TabItem>
+            
+        </TabControl>
     </Canvas>
 
 
