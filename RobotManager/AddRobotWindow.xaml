@@ -14,9 +14,12 @@
 
     <Window.Resources>
         <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
+        <local:NegateBooleanConverter x:Key="T2FConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
 
-    <Canvas>
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
+        <Canvas>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
         <TabControl>
             <TabItem Header="General">
@@ -28,7 +31,7 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Enter the name:" />
-                    <TextBox Grid.Row="1" Controls:TextBoxHelper.Watermark="All chars allowed" Text="{Binding name}"/>
+                    <TextBox Grid.Row="1" Controls:TextBoxHelper.Watermark="All chars allowed" Text="{Binding NewRobot.Name}"/>
                     <Label Grid.Row="2" Content="Currently selected group:" />
                     <Controls:SplitButton  VerticalContentAlignment="Center" SelectedItem="{Binding groups[0]}"  ItemsSource="{Binding groups}" Grid.Row="3"  />
 
@@ -37,8 +40,8 @@
             </TabItem>
             <TabItem Header="Features" >
                 <Grid Margin="0, 30,0,5">
-                    
-                    <ItemsControl ItemsSource="{Binding featuresList}">
+
+                        <ItemsControl ItemsSource="{Binding NewRobot.FeaturesList}">
                         <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="20, 8,0,5">
@@ -47,9 +50,9 @@
                                     <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock  Grid.Column="0" Text="{Binding featureName}" />
-                                 <Slider Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5" TickFrequency="1" TickPlacement="TopLeft" Value="{Binding magnitude}" />
-                                    <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=magnitude, Converter={StaticResource M2FConverter} }" />
+                                        <TextBlock  Grid.Column="0" Text="{Binding Name, NotifyOnTargetUpdated=True}" />
+                                 <Slider Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5" TickFrequency="1" TickPlacement="TopLeft" Value="{Binding Magnitude}" />
+                                    <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=Magnitude, Converter={StaticResource M2FConverter} }" />
                              </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -60,10 +63,10 @@
                 
                 <Grid Margin="0, 0,0,5">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding skillsList}" ScrollViewer.CanContentScroll="True">
+                        <ItemsControl ItemsSource="{Binding NewRobot.SkillsList}" ScrollViewer.CanContentScroll="True">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Controls:ToggleSwitch Header="{Binding skillName}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
+                                    <Controls:ToggleSwitch Header="{Binding Name}" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -71,9 +74,10 @@
                 </Grid>
                 
             </TabItem>
-            <TabItem Header="Submit">
+                <TabItem Header="Submit">
                     <ScrollViewer VerticalScrollBarVisibility="Visible">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -85,11 +89,11 @@
                                 <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Name:" Grid.Column="0" Grid.Row="0"/>
-                            <TextBlock Text="{Binding name}" Grid.Column="1" Grid.Row="0"/>
+                            <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
                             <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
                             <TextBlock Text="{Binding groupName}" Grid.Column="1" Grid.Row="1"/>
 
-                            <ItemsControl ItemsSource="{Binding featuresList}" Grid.Row="2" Grid.Column="0">
+                            <ItemsControl ItemsSource="{Binding NewRobot.FeaturesList}" Grid.Row="2" Grid.Column="0">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="20, 8,0,5">
@@ -98,14 +102,20 @@
                                                 <ColumnDefinition Width="150" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock  Grid.Column="0" Text="{Binding featureName}" />
-                                            <ProgressBar Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5"  Value="{Binding magnitude}" />
-                                            <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=magnitude, Converter={StaticResource M2FConverter} }" />
+                                            <TextBlock  Grid.Column="0" Text="{Binding Name}" />
+                                            <ProgressBar Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5"  Value="{Binding Magnitude}" />
+                                            <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=Magnitude, Converter={StaticResource M2FConverter} }" />
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-
+                            <ItemsControl ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="3">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Visibility="{Binding Path=IsPossible, Converter={StaticResource BoolToVis}}" Text="{Binding Name}" Background="LightGreen"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>
@@ -114,7 +124,7 @@
         </ScrollViewer>
 
     </Canvas>
-    
+    </ScrollViewer>
 
 
 </Controls:MetroWindow>

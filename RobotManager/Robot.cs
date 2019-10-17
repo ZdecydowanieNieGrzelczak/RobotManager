@@ -12,11 +12,8 @@ namespace RobotManager
         public string name
         {
             get => _name;
-            set
-            {
-                name = value;
-            }
         }
+
 
         private string _groupName;
         public string GroupName {
