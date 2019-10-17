@@ -8,10 +8,16 @@
         xmlns:local="clr-namespace:RobotManager"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="MainWindow" Height="300" Width="400">
+        Title="MainWindow" Height="300" Width="400"
+        ResizeMode="NoResize" BorderThickness="0" 
+        WindowStartupLocation="CenterScreen" GlowBrush="Black">
 
-    
-        <Canvas>
+    <Window.Resources>
+        <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
+    </Window.Resources>
+
+    <Canvas>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
         <TabControl>
             <TabItem Header="General">
                 <Grid>
@@ -22,7 +28,7 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Enter the name:" />
-                    <TextBox Grid.Row="1" Controls:TextBoxHelper.Watermark="All chars allowed"/>
+                    <TextBox Grid.Row="1" Controls:TextBoxHelper.Watermark="All chars allowed" Text="{Binding name}"/>
                     <Label Grid.Row="2" Content="Currently selected group:" />
                     <Controls:SplitButton  VerticalContentAlignment="Center" SelectedItem="{Binding groups[0]}"  ItemsSource="{Binding groups}" Grid.Row="3"  />
 
@@ -43,7 +49,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock  Grid.Column="0" Text="{Binding featureName}" />
                                  <Slider Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5" TickFrequency="1" TickPlacement="TopLeft" Value="{Binding magnitude}" />
-                                 <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{Binding Path=featureSymbols[0]}"/>
+                                    <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=magnitude, Converter={StaticResource M2FConverter} }" />
                              </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -51,29 +57,64 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Skills">
-
+                
                 <Grid Margin="0, 0,0,5">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding skillsList}" ScrollViewer.CanContentScroll="True">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Controls:ToggleSwitch Header="{Binding skillName}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding skillsList}" ScrollViewer.CanContentScroll="True">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Controls:ToggleSwitch Header="{Binding skillName}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </ScrollViewer>
-
                 </Grid>
                 
             </TabItem>
             <TabItem Header="Submit">
-                
-            </TabItem>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Name:" Grid.Column="0" Grid.Row="0"/>
+                            <TextBlock Text="{Binding name}" Grid.Column="1" Grid.Row="0"/>
+                            <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
+                            <TextBlock Text="{Binding groupName}" Grid.Column="1" Grid.Row="1"/>
+
+                            <ItemsControl ItemsSource="{Binding featuresList}" Grid.Row="2" Grid.Column="0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="20, 8,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="150" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock  Grid.Column="0" Text="{Binding featureName}" />
+                                            <ProgressBar Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5"  Value="{Binding magnitude}" />
+                                            <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=magnitude, Converter={StaticResource M2FConverter} }" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
             
         </TabControl>
+        </ScrollViewer>
+
     </Canvas>
-
-
+    
 
 
 </Controls:MetroWindow>

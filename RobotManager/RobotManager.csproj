@@ -68,7 +68,7 @@
       <DependentUpon>AddRobotWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="RobotModel.cs" />
     <Compile Include="NewRobotViewModel.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="ViewModelBase.cs" />

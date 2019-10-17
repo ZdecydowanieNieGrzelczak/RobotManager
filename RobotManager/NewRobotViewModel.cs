@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace RobotManager
 {
     class NewRobotViewModel : ViewModelBase
     {
+        private string _name;
+        public string name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
         private string[] _groups;
         public string[] groups
         {
@@ -21,8 +30,6 @@ namespace RobotManager
             get => _featuresList;
             set => SetProperty(ref _featuresList, value);
         }
-
-
 
 
         private string[] mock_features = new string[] { "Movement Speed", "Capacity", "Precision", "Battery Capacity", "Power Consumption" };
@@ -49,29 +56,46 @@ namespace RobotManager
             {
                 skillsList.Add(new Skill() { skillName = mock_skill, canPerform = false });
             }
-
-           
-
         }
-
-
     }
 
     public class Feature
     {
         public string featureName { get; set; }
         public int magnitude { get; set; }
-        public string[] featureSymbols
+
+
+        public static string magnitudeToValueName(int magnitude)
         {
-            get => new string[] { "None", "Very low", "Low", "Medium", "High", "Very high" };
+            string[] featureSymbols = new string[] { "None", "Very low", "Low", "Medium", "High", "Very high" };
+            return featureSymbols[magnitude];
+
         }
-
-
     }
+
+
 
     public class Skill
     {
         public string skillName { get; set; }
         public Boolean canPerform { get; set; }
     }
+
+    public class MagnitudeToFeatureNameConverter : IValueConverter
+    {
+        public string[] featureSymbols = new string[] { "None", "Very low", "Low", "Medium", "High", "Very high" };
+
+        public object Convert(
+            object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return featureSymbols[(int)value];
+        }
+
+        public object ConvertBack(
+            object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Array.IndexOf(featureSymbols, value);
+        }
+    }
+
 }

@@ -23,3 +23,4 @@ H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.csproj
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\App.baml
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\AddRobotWindow.g.cs
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\AddRobotWindow.baml
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\GeneratedInternalTypeHelper.g.cs
