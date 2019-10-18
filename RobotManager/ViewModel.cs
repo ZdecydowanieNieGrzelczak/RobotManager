@@ -10,49 +10,59 @@ namespace RobotManager
 {
     public class ViewModel : ViewModelBase
     {
-        private Robot[] _robots;
-        public Robot[] robots
+
+        private RobotModel _SelectedRobot;
+        public RobotModel SelectedRobot
         {
-            get => _robots;
-            set => SetProperty(ref _robots, value);
+            get => _SelectedRobot;
+            set => SetProperty(ref _SelectedRobot, value);
         }
 
-
-        private string _name;
-        public string name
+        private RobotModel[] _Robots;
+        public RobotModel[] Robots
         {
-            get => _name;
-            set => SetProperty(ref _name, value);
+            get => _Robots;
+            set => SetProperty(ref _Robots, value);
         }
+
 
         private readonly DelegateCommand _changeNameCommand;
         public ICommand ChangeNameCommand => _changeNameCommand;
 
         private readonly DelegateCommand _addNewRobotCommand;
         public ICommand AddNewRobotCommand => _addNewRobotCommand;
-        
 
+        public SQLMediator SQLConnection;
 
         public ViewModel()
         {
             _changeNameCommand = new DelegateCommand(OnChangeName, CanChangeName);
             _addNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddNewRobot);
-            robots = new Robot[3];
-            robots[0] = new Robot("F10N4", "Transport", "red");
-            robots[1] = new Robot("P3DR0", "Cleaning", "blue");
-            robots[2] = new Robot("1544C", "Warehouse", "pink");
 
+
+
+            Robots = new RobotModel[3];
+            Robots[0] = new RobotModel("F10N4", "Transport", 1, 123412);
+            Robots[1] = new RobotModel("P3DR0", "Cleaning", 0, 1232333);
+            Robots[2] = new RobotModel("1544C", "Warehouse", 3, 9994333);
+            SelectedRobot = Robots[0];
+
+            SQLConnection = new SQLMediator();
+            if (SQLConnection.Connect())
+            {
+                SelectedRobot = Robots[2];
+                Robots[2] = SQLConnection.GetRobot();
+            }
         }
 
         private void OnChangeName(object commandParameter)
-        {
-            name = "W4lt3r";
+        { 
             _changeNameCommand.InvokeCanExecuteChanged();
         }
 
         private bool CanChangeName(object commandParameter)
         {
-            return name != "W4lt3r";
+            return false;
         }
 
         private void OnAddNewRobot(object commandParameter)

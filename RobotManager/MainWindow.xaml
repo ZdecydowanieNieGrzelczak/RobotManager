@@ -9,10 +9,59 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="MainWindow" Height="600" Width="800">
+
+    <Window.Resources>
+        <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
+        <local:BoolToColorConverter x:Key="B2CConverter" />
+
+        <Style x:Key="SkillCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+            <Setter Property="Background" Value="{Binding Path=IsPossible, Converter={StaticResource B2CConverter}}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+
+
+
     <Grid>
-        <Button Content="Add new robot" Command="{Binding Path=AddNewRobotCommand}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Button Content="Change Name" Command="{Binding Path=ChangeNameCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-        <DataGrid ItemsSource="{Binding robots}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Button Content="Add new robot" Command="{Binding Path=AddNewRobotCommand}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+        <DataGrid IsHitTestVisible="False" IsReadOnly="True" ItemsSource="{Binding SelectedRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DataGrid IsReadOnly="True" SelectedItem="{Binding SelectedRobot}" ItemsSource="{Binding Robots}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Group Name" Binding="{Binding GroupName}" />
+                <DataGridTextColumn Header="Group ID" Binding="{Binding GroupID}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid IsHitTestVisible="False" IsReadOnly="True" ItemsSource="{Binding SelectedRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Feature" Binding="{Binding Name}" />
+                <DataGridTemplateColumn Header="Value">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ProgressBar ToolTip="{ Binding Path=Magnitude, Converter={StaticResource M2FConverter} }" Width="100" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5"  Value="{Binding Magnitude}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 

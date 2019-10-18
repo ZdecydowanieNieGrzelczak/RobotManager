@@ -24,7 +24,6 @@ namespace RobotManager
         public MainWindow()
         {
             var viewModel = new ViewModel();
-            viewModel.name = "K3v1n";
 
 
             DataContext = viewModel;

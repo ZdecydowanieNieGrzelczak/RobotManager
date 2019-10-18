@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RobotManager
 {
-    class RobotModel : INotifyPropertyChanged
+    public class RobotModel : INotifyPropertyChanged
     {
 
 
@@ -48,7 +48,11 @@ namespace RobotManager
         }
 
         private string _GroupName;
-        public string GroupName { get; set; }
+        public string GroupName
+        {
+            get => _GroupName;
+            set => SetProperty(ref _GroupName, value);
+        }
 
         private List<Feature> _FeaturesList;
         public List<Feature> FeaturesList
@@ -65,22 +69,23 @@ namespace RobotManager
         }
 
 
-        public RobotModel()
+        public RobotModel(string name=null, string groupName=null, int groupID = 0, int seed = 21312)
         {
-            _Name = null;
-            _GroupName = null;
-            _GroupID = 0;
+            Random randObj = new Random(seed);
+            _Name = name;
+            _GroupName = groupName;
+            _GroupID = groupID;
 
             _FeaturesList = new List<Feature>();
             _SkillsList = new List<Skill>();
 
             foreach (string mock_feat in mock_features)
             {
-                FeaturesList.Add(new Feature(mock_feat,0));
+                FeaturesList.Add(new Feature(mock_feat, randObj.Next(5) ));
             }
             foreach (string mock_skill in mock_skills)
             {
-                SkillsList.Add(new Skill(mock_skill, true));
+                SkillsList.Add(new Skill(mock_skill, randObj.NextDouble() > 0.5 ));
             }
         }
 
@@ -142,11 +147,6 @@ namespace RobotManager
             set => SetProperty(ref _IsPossible, value);
         }
 
-        public bool IsNotPossible
-        {
-            get => !_IsPossible;
-            set => value = !_IsPossible;
-        }
 
         public Skill(string name, bool isPossible)
         {
