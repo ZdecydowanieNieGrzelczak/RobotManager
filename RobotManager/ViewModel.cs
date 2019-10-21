@@ -18,8 +18,8 @@ namespace RobotManager
             set => SetProperty(ref _SelectedRobot, value);
         }
 
-        private RobotModel[] _Robots;
-        public RobotModel[] Robots
+        private IList<RobotModel> _Robots;
+        public IList<RobotModel> Robots
         {
             get => _Robots;
             set => SetProperty(ref _Robots, value);
@@ -41,16 +41,16 @@ namespace RobotManager
 
 
 
-            Robots = new RobotModel[3];
-            Robots[0] = new RobotModel("F10N4", "Transport", 1, 123412);
-            Robots[1] = new RobotModel("P3DR0", "Cleaning", 0, 1232333);
-            Robots[2] = new RobotModel("1544C", "Warehouse", 3, 9994333);
-            SelectedRobot = Robots[0];
+            Robots = new List<RobotModel>();
+            Robots.Add(new RobotModel("F10N4", "Transport", 1, 123412));
+            Robots.Add(new RobotModel("P3DR0", "Cleaning", 0, 1232333));
+            Robots.Add(new RobotModel("1544C", "Warehouse", 3, 9994333));
+            SelectedRobot = Robots.ElementAt(0);
 
             SQLConnection = new SQLMediator();
             if (SQLConnection.Connect())
             {
-                SelectedRobot = Robots[2];
+                SelectedRobot = Robots.ElementAt(2);
                 Robots[2] = SQLConnection.GetRobot();
             }
         }

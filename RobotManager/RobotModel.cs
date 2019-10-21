@@ -69,6 +69,17 @@ namespace RobotManager
         }
 
 
+        public RobotModel(string name, string groupName, int groupID, List<Skill> skillsList, List<Feature> featuresList)
+        {
+            _Name = name;
+            _GroupName = groupName;
+            _GroupID = groupID;
+            _SkillsList = new List<Skill>(skillsList);
+            _FeaturesList = new List<Feature>(featuresList);
+
+        }
+
+
         public RobotModel(string name=null, string groupName=null, int groupID = 0, int seed = 21312)
         {
             Random randObj = new Random(seed);
@@ -109,7 +120,7 @@ namespace RobotManager
             set => SetProperty(ref _Magnitude, value);
         }
 
-        public Feature(string name, int magnitude)
+        public Feature(string name, int magnitude=0)
         {
             _Name = name;
             _Magnitude = magnitude;
@@ -148,7 +159,7 @@ namespace RobotManager
         }
 
 
-        public Skill(string name, bool isPossible)
+        public Skill(string name, bool isPossible=false)
         {
             _Name = name;
             _IsPossible = isPossible;
