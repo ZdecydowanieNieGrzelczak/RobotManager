@@ -26,6 +26,7 @@ namespace RobotManager
         {
             groups = new string[] { "None", "Cleaning department", "Warehouse", "Transport robot", "Packing robot" };
             NewRobot = new RobotModel();
+            //NewRobot.FeaturesList = 
         }
     }
 

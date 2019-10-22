@@ -32,27 +32,35 @@ namespace RobotManager
         private readonly DelegateCommand _addNewRobotCommand;
         public ICommand AddNewRobotCommand => _addNewRobotCommand;
 
+        private readonly DelegateCommand _ModifySelectedRobotCommand;
+        public ICommand ModifySelectedRobotCommand => _ModifySelectedRobotCommand;
+
         public SQLMediator SQLConnection;
 
         public ViewModel()
         {
             _changeNameCommand = new DelegateCommand(OnChangeName, CanChangeName);
             _addNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddNewRobot);
-
-
-
-            Robots = new List<RobotModel>();
-            Robots.Add(new RobotModel("F10N4", "Transport", 1, 123412));
-            Robots.Add(new RobotModel("P3DR0", "Cleaning", 0, 1232333));
-            Robots.Add(new RobotModel("1544C", "Warehouse", 3, 9994333));
-            SelectedRobot = Robots.ElementAt(0);
+            _ModifySelectedRobotCommand = new DelegateCommand(OnModifySelectedRobot, CanModifySelectedRobot);
 
             SQLConnection = new SQLMediator();
             if (SQLConnection.Connect())
             {
-                SelectedRobot = Robots.ElementAt(2);
-                Robots[2] = SQLConnection.GetRobot();
+                Robots = SQLConnection.GetRobots();
+                SelectedRobot = Robots.ElementAt(0);
             }
+        
+
+
+
+
+            //Robots = new List<RobotModel>();
+            //Robots.Add(new RobotModel("F10N4", "Transport", 1, 123412));
+            //Robots.Add(new RobotModel("P3DR0", "Cleaning", 0, 1232333));
+            //Robots.Add(new RobotModel("1544C", "Warehouse", 3, 9994333));
+            //SelectedRobot = Robots.ElementAt(0);
+
+
         }
 
         private void OnChangeName(object commandParameter)
@@ -72,6 +80,17 @@ namespace RobotManager
         }
 
         private bool CanAddNewRobot(object commandParameter)
+        {
+            return true;
+        }
+
+        private void OnModifySelectedRobot(object commandParameter)
+        {
+            ModifySelectedRobotWindow modifySelectedRobotWindow = new ModifySelectedRobotWindow(SelectedRobot);
+            modifySelectedRobotWindow.Show();
+        }
+
+        private bool CanModifySelectedRobot(object commandParameter)
         {
             return true;
         }

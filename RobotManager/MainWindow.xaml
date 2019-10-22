@@ -36,8 +36,9 @@
         </Grid.RowDefinitions>
         
         <Button Content="Add new robot" Command="{Binding Path=AddNewRobotCommand}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="Modify selected robot" Command="{Binding Path=ModifySelectedRobotCommand}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-        <DataGrid IsHitTestVisible="False" IsReadOnly="True" ItemsSource="{Binding SelectedRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False">
+        <DataGrid IsReadOnly="True" ItemsSource="{Binding SelectedRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}"/>
             </DataGrid.Columns>

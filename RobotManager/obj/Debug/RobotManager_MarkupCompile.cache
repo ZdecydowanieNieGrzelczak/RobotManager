@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\App.xaml
-21856299394
+31022683501
 
-131513901639
+15-680640333
 16-571705116
-AddRobotWindow.xaml;MainWindow.xaml;
+AddRobotWindow.xaml;MainWindow.xaml;ModifySelectedRobotWindow.xaml;
 
 False
 

@@ -26,9 +26,9 @@ namespace RobotManager
         }
 
 
-        private string[] mock_features = new string[] { "Movement Speed", "Capacity", "Precision", "Battery Capacity", "Power Consumption" };
-        private string[] mock_skills = new string[] { "Dusting", "Wet Cleaning", "Window Cleaning", "Packing", "Grabbing Objects", "Carrying Objects",
-                "Skanning barcodes", "Pathfinding", "Emptying Garbage", "Requesting Restocking" };
+        //private string[] mock_features = new string[] { "Movement Speed", "Capacity", "Precision", "Battery Capacity", "Power Consumption" };
+        //private string[] mock_skills = new string[] { "Dusting", "Wet Cleaning", "Window Cleaning", "Packing", "Grabbing Objects", "Carrying Objects",
+        //        "Skanning barcodes", "Pathfinding", "Emptying Garbage", "Requesting Restocking" };
 
 
 
@@ -79,25 +79,22 @@ namespace RobotManager
 
         }
 
-
-        public RobotModel(string name=null, string groupName=null, int groupID = 0, int seed = 21312)
+        public RobotModel(RobotModel other)
         {
-            Random randObj = new Random(seed);
+            _Name = other.Name;
+            _GroupID = other.GroupID;
+            _GroupName = other.GroupName;
+            _SkillsList = other.SkillsList.ConvertAll(skill => new Skill(skill.Name, skill.IsPossible));
+            //_FeaturesList = new List<Feature>(other.FeaturesList);
+        }
+
+
+        public RobotModel(string name=null, string groupName=null, int groupID=0)
+        {
             _Name = name;
             _GroupName = groupName;
             _GroupID = groupID;
 
-            _FeaturesList = new List<Feature>();
-            _SkillsList = new List<Skill>();
-
-            foreach (string mock_feat in mock_features)
-            {
-                FeaturesList.Add(new Feature(mock_feat, randObj.Next(5) ));
-            }
-            foreach (string mock_skill in mock_skills)
-            {
-                SkillsList.Add(new Skill(mock_skill, randObj.NextDouble() > 0.5 ));
-            }
         }
 
 
