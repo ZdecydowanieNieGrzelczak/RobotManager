@@ -9,14 +9,39 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="ModifySelectedRobotWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
+        <local:NegateBooleanConverter x:Key="T2FConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Style x:Key="ToggleSwitches" TargetType="Controls:ToggleSwitch" BasedOn="{StaticResource {x:Type Controls:ToggleSwitch}}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <!--<Setter Property="ToggleSwitchButtonStyle"-->
+
+        </Style>
+    </Window.Resources>
+
+
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <Grid Margin="0, 30,0,5" Grid.Column="0">
+        <Button Content="Save Changes" Command="{Binding SaveRobotCommand}" Grid.Column="0" Grid.Row="0"/>
+        <Button Content="Exit" Command="{Binding ExitCommand}" Grid.Column="1" Grid.Row="0"/>
+        <Grid Margin="0, 30,0,5" Grid.Column="0" Grid.Row="1">
 
-            <ItemsControl ItemsSource="{Binding SelectedRobot.FeaturesList}">
+            <ItemsControl ItemsSource="{Binding SelectedModel.FeaturesList}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="20, 8,0,5">
@@ -32,16 +57,21 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Grid Margin="0, 0,0,5" Grid.Column="1">
+        </Grid>
+        <Grid Margin="0, 0,0,5" Grid.Column="1" Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding SelectedModel.SkillsList}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Controls:ToggleSwitch Header="{Binding Name}" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding Name}" FontSize="12" HorizontalAlignment="Center" />
+                            <Controls:ToggleSwitch Style="{StaticResource ToggleSwitches}" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
+                        </Grid>
+                    </DataTemplate>
+
+                </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-        </Grid>
+        
 
     </Grid>
 </Controls:MetroWindow>

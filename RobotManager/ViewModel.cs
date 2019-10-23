@@ -35,6 +35,9 @@ namespace RobotManager
         private readonly DelegateCommand _ModifySelectedRobotCommand;
         public ICommand ModifySelectedRobotCommand => _ModifySelectedRobotCommand;
 
+        private readonly DelegateCommand _CloseWindowCommand;
+        public ICommand CloseWindowCommand => _CloseWindowCommand;
+
         public SQLMediator SQLConnection;
 
         public ViewModel()
@@ -42,6 +45,7 @@ namespace RobotManager
             _changeNameCommand = new DelegateCommand(OnChangeName, CanChangeName);
             _addNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddNewRobot);
             _ModifySelectedRobotCommand = new DelegateCommand(OnModifySelectedRobot, CanModifySelectedRobot);
+            _CloseWindowCommand = new DelegateCommand(OnCloseWindowCommand, CanCloseWindow);
 
             SQLConnection = new SQLMediator();
             if (SQLConnection.Connect())
@@ -94,5 +98,18 @@ namespace RobotManager
         {
             return true;
         }
+
+
+        private bool CanCloseWindow(object commandParameter)
+        {
+            return true;
+        }
+
+        private void OnCloseWindowCommand(object commandParameter)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+
     }
 }

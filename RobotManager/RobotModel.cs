@@ -85,7 +85,7 @@ namespace RobotManager
             _GroupID = other.GroupID;
             _GroupName = other.GroupName;
             _SkillsList = other.SkillsList.ConvertAll(skill => new Skill(skill.Name, skill.IsPossible));
-            //_FeaturesList = new List<Feature>(other.FeaturesList);
+            _FeaturesList = other.FeaturesList.ConvertAll(feature => new Feature(feature.Name, feature.Magnitude));
         }
 
 

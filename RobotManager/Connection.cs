@@ -15,9 +15,7 @@ namespace RobotManager
         public string Target;
         public string InitialCatalog;
         public SqlConnection Connection;
-        public string[] TableNames;
-        public List<Feature> TemplateFeatureList = new List<Feature>();
-        public List<Skill> TemplateSkillList = new List<Skill>();
+
 
 
         public SQLMediator(string userName= "tmedp_user" , string password="Tme12345", string target="HARADEV", string initialCatalog="praktyka")
@@ -26,7 +24,6 @@ namespace RobotManager
             Password = password;
             Target = target;
             InitialCatalog = initialCatalog;
-            TableNames = new string[] { "RobotsXFeatures", "RobotsXSkills" };
         }
 
         public bool Connect()
@@ -45,26 +42,26 @@ namespace RobotManager
         }
 
 
-        public List<T> getTableAsList<T>(string tableName, Func<string, T> converter)
-        {
-            List<T> list = new List<T>();
+        //public List<T> getTableAsList<T>(string tableName, Func<string, T> converter)
+        //{
+        //    List<T> list = new List<T>();
 
-            string query = "SELECT * FROM " + '\'' + tableName + '\'';
-
-
-
-            SqlDataReader dataReader;
-            SqlCommand getCommand = new SqlCommand(query, Connection);
-
-            dataReader = getCommand.ExecuteReader();
+        //    string query = "SELECT * FROM " + '\'' + tableName + '\'';
 
 
-            while (dataReader.Read())
-            {
-                list.Add(converter((string)dataReader.GetValue(1)));
-            }
-            return list;
-        }
+
+        //    SqlDataReader dataReader;
+        //    SqlCommand getCommand = new SqlCommand(query, Connection);
+
+        //    dataReader = getCommand.ExecuteReader();
+
+
+        //    while (dataReader.Read())
+        //    {
+        //        list.Add(converter((string)dataReader.GetValue(1)));
+        //    }
+        //    return list;
+        //}
 
 
 
@@ -74,11 +71,13 @@ namespace RobotManager
             {
                 List<Skill> skillList = new List<Skill>();
 
-                string query = "SELECT  SkillDescription, Possible FROM RobotsXSkills INNER JOIN Robots ON Robots.ID = RobotsXSkills.RobotID " +
-                    "INNER JOIN Skills ON Skills.ID = RobotsXSkills.SkillID WHERE RobotName = " + '\'' + robot.Name + '\'';
-
                 SqlDataReader dataReader;
-                SqlCommand getCommand = new SqlCommand(query, Connection);
+                SqlCommand getCommand = new SqlCommand("dbo.ExctractRobotSkillsByName", Connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                getCommand.Parameters.Add(new SqlParameter("@RobotName", robot.Name));
 
                 dataReader = getCommand.ExecuteReader();
                 while (dataReader.Read())
@@ -96,21 +95,20 @@ namespace RobotManager
 
         public void GetFeatureList(List<RobotModel> robotList)
         {
+            
             foreach(RobotModel robot in robotList)
             {
                 List<Feature> getFeatureList = new List<Feature>();
 
-                //string query = "SELECT FeatureName, FeatureRank FROM RobotsXFeatures INNER JOIN Robots ON Robots.ID = RobotsXFeatures.RobotID " +
-                //    "INNER JOIN Features ON Features.ID = RobotsXFeatures.FeatureID WHERE RobotName = " + '\'' + robot.Name + '\'';
-
                 SqlDataReader dataReader;
-                SqlCommand getCommand = new SqlCommand("dbo.SelectRobots", Connection)
+                SqlCommand getCommand = new SqlCommand("dbo.ExctractRobotFeaturesByName", Connection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
 
                 getCommand.Parameters.Add(new SqlParameter("@RobotName", robot.Name));
 
+                
 
                 dataReader = getCommand.ExecuteReader();
                 while (dataReader.Read())
@@ -126,35 +124,23 @@ namespace RobotManager
 
         public bool DeleteRobot(string robotName)
         {
-            foreach(string tableName in TableNames)
-            {
-                string query = "DELETE FROM " + tableName + " WHERE RobotID = (SELECT ID FROM Robots WHERE RobotName =" + '\'' + robotName + '\'' + ")"; ;
-                SqlCommand deleteCommand = new SqlCommand(query, Connection);
-                deleteCommand.ExecuteNonQuery();
-            }
 
-            SqlCommand deleteRobot = new SqlCommand(("DELETE FROM Robots WHERE RobotName = " + '\'' + robotName + '\''), Connection);
-            deleteRobot.ExecuteNonQuery();
+            //SqlDataReader dataReader;
+            SqlCommand deleteCommand = new SqlCommand("dbo.ExctractRobotFeaturesByName", Connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            deleteCommand.Parameters.Add(new SqlParameter("@RobotName", robotName));
+
+            if(deleteCommand.ExecuteNonQuery() == 0)
+            {
+                return false;
+            }
 
             return true;
         }
 
-
-
-        public void GetRobotData(List<RobotModel> robotList)
-        {
-
-
-            //SqlDataReader dataReader;
-            ////SqlCommand getCommand = new SqlCommand(query, Connection);
-
-            //dataReader = getCommand.ExecuteReader();
-            //dataReader.Read();
-
-
-            //dataReader.Close();            
-
-        }
 
         public List<RobotModel> GetRobots()
         {
@@ -187,7 +173,7 @@ namespace RobotManager
 
             robotReader.Close();
 
-            //GetFeatureList(robotList);
+            GetFeatureList(robotList);
             GetSkillsList(robotList);
 
 
