@@ -16,14 +16,32 @@
     <Window.Resources>
         <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
         <local:NegateBooleanConverter x:Key="T2FConverter"/>
+        <local:BoolToColorConverter x:Key="B2CConverter" />
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Style x:Key="ToggleSwitches" TargetType="Controls:ToggleSwitch" BasedOn="{StaticResource {x:Type Controls:ToggleSwitch}}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <!--<Setter Property="ToggleSwitchButtonStyle"-->
+
+        </Style>
+        <Style x:Key="SkillCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+            <Setter Property="Background" Value="{Binding Path=IsPossible, Converter={StaticResource B2CConverter}}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
 
-    <Canvas>
+    <Canvas >
+
+
         <TabControl>
 
             <TabItem Header="General">
-                
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
@@ -62,61 +80,65 @@
             </TabItem>
             <TabItem Header="Skills">
 
-                <Grid Margin="0, 0,0,5">
-                    <ItemsControl ItemsSource="{Binding NewRobot.SkillsList}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Controls:ToggleSwitch Header="{Binding Name}" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Grid Margin="10, 20, 20, 10" ScrollViewer.CanContentScroll="True" MaxHeight="200">
+                    <ScrollViewer >
+                        <ItemsControl ItemsSource="{Binding NewRobot.SkillsList}"  >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" Grid.Column="0" FontSize="12" HorizontalAlignment="Center" />
+                                        <Controls:ToggleSwitch Style="{StaticResource ToggleSwitches}" HorizontalAlignment="Left" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
                 </Grid>
 
             </TabItem>
-            <TabItem Header="Submit" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="300">
-                
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                    
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+            <TabItem Header="Submit">
+
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ScrollViewer.CanContentScroll="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" ScrollViewer.CanContentScroll="True"/>
+                        <RowDefinition Height="*" ScrollViewer.CanContentScroll="True"/>
+                        <RowDefinition Height="130" ScrollViewer.CanContentScroll="True"/>
+                        <RowDefinition Height="*" ScrollViewer.CanContentScroll="True"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Name:" Grid.Column="0" Grid.Row="0"/>
-                            <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
-                            <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
-                            <TextBlock Text="{Binding groupName}" Grid.Column="1" Grid.Row="1"/>
 
-                            <ItemsControl ItemsSource="{Binding NewRobot.FeaturesList}" Grid.Row="2" Grid.Column="0">
-                                <ItemsControl.ItemTemplate>
+                    <TextBlock Text="Name:" Grid.Column="0" Grid.Row="0"/>
+                        <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
+                        <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
+                    <TextBlock Text="{Binding groupName}" Grid.Column="1" Grid.Row="1"/>
+                    <DataGrid IsReadOnly="True" ItemsSource="{Binding NewRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Feature" Binding="{Binding Name}" />
+                            <DataGridTemplateColumn Header="Value">
+                                <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="20, 8,0,5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="150" />
-                                                <ColumnDefinition Width="100" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock  Grid.Column="0" Text="{Binding Name}" />
-                                            <ProgressBar Width="120" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5"  Value="{Binding Magnitude}" />
-                                            <TextBlock HorizontalAlignment="Center"  Grid.Column="2" Text="{ Binding Path=Magnitude, Converter={StaticResource M2FConverter} }" />
-                                        </Grid>
+                                        <ProgressBar ToolTip="{ Binding Path=Magnitude, Converter={StaticResource M2FConverter} }" Width="100" HorizontalContentAlignment="Center" Grid.Column="1" Minimum="0" Maximum="5"  Value="{Binding Magnitude}" />
                                     </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="3">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Visibility="{Binding Path=IsPossible, Converter={StaticResource BoolToVis}}" Text="{Binding Name}" Background="LightGreen"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid IsReadOnly="True" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Margin="10, 10, 10, 10" Grid.Row="3" Grid.Column="1" Command="{Binding AddNewRobotCommand}" Content="Add new robot" VerticalAlignment="Center" />
                 </Grid>
-                
+
             </TabItem>
 
         </TabControl>

@@ -33,7 +33,10 @@ namespace RobotManager
 
         }
 
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
 
+        }
     }
 
 

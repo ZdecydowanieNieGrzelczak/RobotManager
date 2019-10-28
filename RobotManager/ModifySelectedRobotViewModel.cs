@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RobotManager
@@ -68,7 +69,7 @@ namespace RobotManager
 
         private void OnExitCommand(object commandParameter)
         {
-
+            
         }
 
         private bool CanSaveRobot(object commandParameter)

@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="ModifySelectedRobotWindow" Height="450" Width="800">
@@ -63,8 +64,12 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Text="{Binding Name}" FontSize="12" HorizontalAlignment="Center" />
-                            <Controls:ToggleSwitch Style="{StaticResource ToggleSwitches}" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" Grid.Column="0" FontSize="12" HorizontalAlignment="Center" />
+                            <Controls:ToggleSwitch Style="{StaticResource ToggleSwitches}" HorizontalAlignment="Left" IsChecked="{Binding IsPossible}" Grid.Column="1" OnLabel="Can" OffLabel="Cannot"/>
                         </Grid>
                     </DataTemplate>
 

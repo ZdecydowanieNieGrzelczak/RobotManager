@@ -25,7 +25,7 @@ namespace RobotManager
             var MSRviewModel = new ModifySelectedRobotViewModel
             {
                 BackupModel = selectedRobot,
-                SelectedModel = new RobotModel(selectedRobot),
+                SelectedModel = new RobotModel(selectedRobot, true),
                 IsDirty = false
         };
 

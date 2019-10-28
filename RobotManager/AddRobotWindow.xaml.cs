@@ -21,9 +21,10 @@ namespace RobotManager
     /// </summary>
     public partial class AddRobotWindow : MetroWindow
     {
-        public AddRobotWindow()
+        public AddRobotWindow(RobotModel robotModel)
         {
             var NRviewModel = new NewRobotViewModel();
+            NRviewModel.NewRobot = new RobotModel(robotModel, false);
 
             DataContext = NRviewModel;
             InitializeComponent();

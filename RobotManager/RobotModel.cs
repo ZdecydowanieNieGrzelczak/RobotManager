@@ -79,13 +79,16 @@ namespace RobotManager
 
         }
 
-        public RobotModel(RobotModel other)
+        public RobotModel(RobotModel other, Boolean ShouldCopy)
         {
-            _Name = other.Name;
-            _GroupID = other.GroupID;
-            _GroupName = other.GroupName;
-            _SkillsList = other.SkillsList.ConvertAll(skill => new Skill(skill.Name, skill.IsPossible));
-            _FeaturesList = other.FeaturesList.ConvertAll(feature => new Feature(feature.Name, feature.Magnitude));
+            if (ShouldCopy)
+            {
+                _Name = other.Name;
+                _GroupID = other.GroupID;
+                _GroupName = other.GroupName;
+            }         
+            _SkillsList = other.SkillsList.ConvertAll(skill => new Skill(skill.Name, (ShouldCopy ? skill.IsPossible : false)));
+            _FeaturesList = other.FeaturesList.ConvertAll(feature => new Feature(feature.Name, (ShouldCopy ? feature.Magnitude : 0)));
         }
 
 

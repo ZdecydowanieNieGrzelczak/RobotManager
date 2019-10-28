@@ -18,8 +18,8 @@ namespace RobotManager
             set => SetProperty(ref _SelectedRobot, value);
         }
 
-        private IList<RobotModel> _Robots;
-        public IList<RobotModel> Robots
+        private List<RobotModel> _Robots;
+        public List<RobotModel> Robots
         {
             get => _Robots;
             set => SetProperty(ref _Robots, value);
@@ -79,7 +79,7 @@ namespace RobotManager
 
         private void OnAddNewRobot(object commandParameter)
         {
-            AddRobotWindow addRobotWindow = new AddRobotWindow();
+            AddRobotWindow addRobotWindow = new AddRobotWindow(SelectedRobot);
             addRobotWindow.Show();
         }
 

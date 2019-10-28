@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace RobotManager
 {
@@ -19,15 +20,41 @@ namespace RobotManager
         }
 
         private RobotModel _NewRobot;
-        public RobotModel NewRobot { get; set; }
+        public RobotModel NewRobot
+        {
+            get => _NewRobot;
+            set => SetProperty(ref _NewRobot, value);
+        }
+
+
+        private string[] _Names;
+        public string[] Names { get; set; }
+
+        private readonly DelegateCommand _AddNewRobotCommand;
+        public ICommand AddNewRobotCommand => _AddNewRobotCommand;
 
 
         public NewRobotViewModel()
         {
+            _AddNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddRobot);
             groups = new string[] { "None", "Cleaning department", "Warehouse", "Transport robot", "Packing robot" };
-            NewRobot = new RobotModel();
-            //NewRobot.FeaturesList = 
         }
+
+        private bool CanAddRobot(object commandParameter)
+        {
+            if(NewRobot.Name == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void OnAddNewRobot(object commandParameter)
+        {
+
+        }
+
+
     }
 
 
