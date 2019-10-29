@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace RobotManager
 {
@@ -68,6 +71,13 @@ namespace RobotManager
             set => SetProperty(ref _SkillsList, value);
         }
 
+        private List<string> _GroupsList;
+        public List<string> GroupsList
+        {
+            get => _GroupsList;
+            set => SetProperty(ref _GroupsList, value);
+        }
+
 
         public RobotModel(string name, string groupName, int groupID, List<Skill> skillsList, List<Feature> featuresList)
         {
@@ -89,14 +99,16 @@ namespace RobotManager
             }         
             _SkillsList = other.SkillsList.ConvertAll(skill => new Skill(skill.Name, (ShouldCopy ? skill.IsPossible : false)));
             _FeaturesList = other.FeaturesList.ConvertAll(feature => new Feature(feature.Name, (ShouldCopy ? feature.Magnitude : 0)));
+            _GroupsList = other.GroupsList;
         }
 
 
-        public RobotModel(string name=null, string groupName=null, int groupID=0)
+        public RobotModel(string name=null, string groupName=null, int groupID=0, List<string> groups=null)
         {
             _Name = name;
             _GroupName = groupName;
             _GroupID = groupID;
+            _GroupsList = groups;
 
         }
 
@@ -176,6 +188,34 @@ namespace RobotManager
                 return true;
             }
             return false;
+        }
+    }
+
+    public class NameValidationRule : ValidationRule
+    {
+        public Regex regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+
+        public NameValidationRule()
+        {
+        }
+
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+                if (regexItem.IsMatch((string)value))
+                {
+                    return ValidationResult.ValidResult;
+                }
+            }
+            catch
+            {
+                return new ValidationResult(false, $"Cannot be left empty!");
+            }
+            return new ValidationResult(false, $"Please enter only letters and numbers!");
+            
+            
+            
         }
     }
 

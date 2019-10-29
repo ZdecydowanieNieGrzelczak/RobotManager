@@ -142,13 +142,34 @@ namespace RobotManager
         }
 
 
+        public List<string> GetGroupsList()
+        {
+            List<string> groups = new List<string>();
+
+            string query = "SELECT GroupName FROM Groups";
+
+
+            SqlDataReader dataReader;
+            SqlCommand getCommand = new SqlCommand(query, Connection);
+
+            dataReader = getCommand.ExecuteReader();
+            while (dataReader.Read())
+            {
+                groups.Add((string)(dataReader.GetValue(0)));
+            }
+
+            dataReader.Close();
+            return groups;
+        }
+
+
         public List<RobotModel> GetRobots()
         {
             List<RobotModel> robotList = new List<RobotModel>();
 
 
 
-            string query = "SELECT RobotName, GroupName, GroupID FROM Robots INNER JOIN Groups ON Groups.ID = Robots.GroupID";
+
 
 
             if (Connection.State != ConnectionState.Open)
@@ -161,6 +182,12 @@ namespace RobotManager
                 }
             }
 
+            List<string> groups = GetGroupsList();
+
+
+
+            string query = "SELECT RobotName, GroupName, GroupID FROM Robots INNER JOIN Groups ON Groups.ID = Robots.GroupID";
+
 
             SqlDataReader robotReader;
             SqlCommand getCommand = new SqlCommand(query, Connection);
@@ -168,7 +195,7 @@ namespace RobotManager
             robotReader = getCommand.ExecuteReader();
             while (robotReader.Read())
             {
-                robotList.Add(new RobotModel((string)robotReader.GetValue(0), (string)robotReader.GetValue(1), (int)robotReader.GetValue(2)));
+                robotList.Add(new RobotModel((string)robotReader.GetValue(0), (string)robotReader.GetValue(1), (int)robotReader.GetValue(2), groups));
             }
 
             robotReader.Close();
