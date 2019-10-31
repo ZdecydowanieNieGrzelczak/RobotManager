@@ -10,6 +10,12 @@ namespace RobotManager
 {
     class ModifySelectedRobotViewModel : ViewModelBase
     {
+
+        public SQLMediator SQLConnection;
+
+
+        public Action CloseAction { get; set; }
+
         private bool _IsDirty;
         public bool IsDirty
         {
@@ -51,7 +57,7 @@ namespace RobotManager
             _ExitCommand = new DelegateCommand(OnExitCommand, CanExit);
             _SaveRobotCommand = new DelegateCommand(OnSaveRobotCommand, CanSaveRobot);
             _ValuesUpdatedCommand = new DelegateCommand(OnValuesUpdate, CanUpdateValues);
-
+            SQLConnection = new SQLMediator();
 
 
         }
@@ -69,18 +75,29 @@ namespace RobotManager
 
         private void OnExitCommand(object commandParameter)
         {
-            
+            CloseAction();
         }
 
         private bool CanSaveRobot(object commandParameter)
         {
-            return _IsDirty;
+            //return _IsDirty;
+            return true;
         }
 
         private void OnSaveRobotCommand(object commandParameter)
         {
             _BackupModel = _SelectedModel;
             _IsDirty = false;
+            if (SQLConnection.Connect())
+            {
+                SQLConnection.ModifyOrAddRobot(_SelectedModel, "dbo.UpdateRobots");
+                SQLConnection.Close();
+            }
+            else
+            {
+                Console.WriteLine("Cannot connect to modify robot!");
+            }
+            CloseAction();
         }
 
         private void OnValuesUpdate(object commandParameter)

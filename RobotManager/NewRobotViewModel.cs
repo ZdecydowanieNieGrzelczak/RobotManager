@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,10 @@ namespace RobotManager
 {
     class NewRobotViewModel : ViewModelBase
     {
+
+        public Action CloseAction { get; set; }
+
+        private SQLMediator _SQLConnection;
 
         private string[] _groups;
         public string[] groups
@@ -33,27 +38,52 @@ namespace RobotManager
         private readonly DelegateCommand _AddNewRobotCommand;
         public ICommand AddNewRobotCommand => _AddNewRobotCommand;
 
+        private readonly DelegateCommand _SelectGroupCommand;
+        public ICommand SelectGroupCommand => _SelectGroupCommand;
+
 
         public NewRobotViewModel()
         {
             _AddNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddRobot);
-            groups = new string[] { "None", "Cleaning department", "Warehouse", "Transport robot", "Packing robot" };
+            _SelectGroupCommand = new DelegateCommand(OnSelectGroup, CanSelectGroup);
+            //groups = new string[] { "None", "Cleaning department", "Warehouse", "Transport robot", "Packing robot" };
+            _SQLConnection = new SQLMediator();
         }
 
         private bool CanAddRobot(object commandParameter)
         {
-            if(NewRobot.Name == null)
-            {
-                return false;
-            }
+            //if(NewRobot.Name == null)
+            //{
+            //    return false;
+            //}
             return true;
         }
 
         private void OnAddNewRobot(object commandParameter)
         {
 
+            _NewRobot.GroupID = _NewRobot.GroupsList.IndexOf(_NewRobot.GroupName);
+            if (_SQLConnection.Connect())
+            {
+                _SQLConnection.ModifyOrAddRobot(_NewRobot, "dbo.AddNewRobot");
+                _SQLConnection.Close();
+            } else
+            {
+                Console.WriteLine("Cannot connect to database!");
+            }
+            CloseAction();
+
         }
 
+        private bool CanSelectGroup(object commandParameter)
+        {
+            return true;
+        }
+
+        private void OnSelectGroup(object commandParameter)
+        {
+            
+        }
 
     }
 

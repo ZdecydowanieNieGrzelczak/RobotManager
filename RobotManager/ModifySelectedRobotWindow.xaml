@@ -4,9 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="ModifySelectedRobotWindow" Height="450" Width="800">
@@ -40,8 +41,21 @@
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
         <Button Content="Save Changes" Command="{Binding SaveRobotCommand}" Grid.Column="0" Grid.Row="0"/>
-        <Button Content="Exit" Command="{Binding ExitCommand}" Grid.Column="1" Grid.Row="0"/>
-        <Controls:SplitButton  VerticalContentAlignment="Center"  ItemsSource="{Binding SelectedModel.GroupsList}" Grid.Row="1" Grid.Column="1" Height="30" Width="150"/>
+        <Button Content="Exit" Command="{Binding ExitCommand}" Grid.Column="1" Grid.Row="0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+        <Controls:SplitButton  VerticalContentAlignment="Center" SelectedItem="{Binding SelectedModel.GroupName}" ItemsSource="{Binding SelectedModel.GroupsList}" Grid.Row="1" Grid.Column="1" Height="30" Width="150">
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Path=SelectGroupCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+        </Controls:SplitButton>
         <Grid Margin="0, 30,0,5" Grid.Column="0" Grid.Row="2">
 
             <ItemsControl ItemsSource="{Binding SelectedModel.FeaturesList}">

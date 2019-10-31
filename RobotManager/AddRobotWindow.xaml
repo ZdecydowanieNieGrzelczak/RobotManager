@@ -4,12 +4,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="MainWindow" Height="300" Width="400"
         ResizeMode="NoResize" BorderThickness="0" 
+        FocusManager.FocusedElement="{Binding ElementName=Split4Groups}"
         WindowStartupLocation="CenterScreen" GlowBrush="Black"
                       ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
 
@@ -51,7 +54,7 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Enter the name:" />
-                    <TextBox Grid.Row="1"  CharacterCasing="Upper" Controls:TextBoxHelper.Watermark="All chars allowed">
+                    <TextBox Grid.Row="1" CharacterCasing="Upper" Controls:TextBoxHelper.Watermark="All chars allowed">
                         <TextBox.Text>
                             <Binding Path="NewRobot.Name" ValidatesOnNotifyDataErrors="True"
                                 ValidatesOnDataErrors="True"
@@ -69,7 +72,17 @@
 
 
                     <Label Grid.Row="2" Content="Currently selected group:" />
-                    <Controls:SplitButton  VerticalContentAlignment="Center" SelectedItem="{Binding Selected}"  ItemsSource="{Binding groups}" Grid.Row="3"  />
+                    <Controls:SplitButton Name="Split4Groups" VerticalContentAlignment="Center" SelectedItem="{Binding NewRobot.GroupName}"  ItemsSource="{Binding NewRobot.GroupsList}" Grid.Row="3" >
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                --><!--<i:InvokeCommandAction Command="{Binding Path=SelectGroupCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:SplitButton}},  Path=SelectedIndex}"/>--><!--
+                                <i:InvokeCommandAction CommandParameter="1" Command="{Binding Path=SelectGroupCommand}" />
+
+
+
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                    </Controls:SplitButton>
 
                 </Grid>
 
@@ -133,9 +146,9 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Name:" Grid.Column="0" Grid.Row="0"/>
-                        <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
-                        <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
-                    <TextBlock Text="{Binding SelectedGroup}" Grid.Column="1" Grid.Row="1"/>
+                    <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
+                    <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
+                    <TextBlock Text="{Binding NewRobot.GroupName}" Grid.Column="1" Grid.Row="1"/>
                     <DataGrid IsReadOnly="True" ItemsSource="{Binding NewRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Feature" Binding="{Binding Name}" />
@@ -148,13 +161,11 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <!--<ScrollViewer >-->
-                        <DataGrid IsReadOnly="True" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
+                    <DataGrid IsReadOnly="True" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                    <!--</ScrollViewer>-->
                     <Button Margin="10, 10, 10, 10" Grid.Row="3" Grid.Column="1" Command="{Binding AddNewRobotCommand}" Content="Add new robot" VerticalAlignment="Center" />
                 </Grid>
 

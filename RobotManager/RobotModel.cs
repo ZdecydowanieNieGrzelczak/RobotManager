@@ -96,6 +96,9 @@ namespace RobotManager
                 _Name = other.Name;
                 _GroupID = other.GroupID;
                 _GroupName = other.GroupName;
+            } else
+            {
+                _GroupName = "None";
             }         
             _SkillsList = other.SkillsList.ConvertAll(skill => new Skill(skill.Name, (ShouldCopy ? skill.IsPossible : false)));
             _FeaturesList = other.FeaturesList.ConvertAll(feature => new Feature(feature.Name, (ShouldCopy ? feature.Magnitude : 0)));
@@ -103,7 +106,7 @@ namespace RobotManager
         }
 
 
-        public RobotModel(string name=null, string groupName=null, int groupID=0, List<string> groups=null)
+        public RobotModel(string name=null, string groupName="None", int groupID=0, List<string> groups=null)
         {
             _Name = name;
             _GroupName = groupName;
@@ -208,9 +211,9 @@ namespace RobotManager
                     return ValidationResult.ValidResult;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                return new ValidationResult(false, $"Cannot be left empty!");
+                return new ValidationResult(false, $"Exception: {e}" );
             }
             return new ValidationResult(false, $"Please enter only letters and numbers!");
             

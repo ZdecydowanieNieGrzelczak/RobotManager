@@ -42,27 +42,6 @@ namespace RobotManager
         }
 
 
-        //public List<T> getTableAsList<T>(string tableName, Func<string, T> converter)
-        //{
-        //    List<T> list = new List<T>();
-
-        //    string query = "SELECT * FROM " + '\'' + tableName + '\'';
-
-
-
-        //    SqlDataReader dataReader;
-        //    SqlCommand getCommand = new SqlCommand(query, Connection);
-
-        //    dataReader = getCommand.ExecuteReader();
-
-
-        //    while (dataReader.Read())
-        //    {
-        //        list.Add(converter((string)dataReader.GetValue(1)));
-        //    }
-        //    return list;
-        //}
-
 
 
         public void GetSkillsList(List<RobotModel> robots)
@@ -92,6 +71,7 @@ namespace RobotManager
 
 
         }
+
 
         public void GetFeatureList(List<RobotModel> robotList)
         {
@@ -125,7 +105,7 @@ namespace RobotManager
         public bool DeleteRobot(string robotName)
         {
 
-            //SqlDataReader dataReader;
+
             SqlCommand deleteCommand = new SqlCommand("dbo.ExctractRobotFeaturesByName", Connection)
             {
                 CommandType = CommandType.StoredProcedure
@@ -205,6 +185,42 @@ namespace RobotManager
 
 
             return robotList;
+        }
+
+        public void ModifyOrAddRobot(RobotModel updatedRobot, string procedureName)
+        {
+
+
+            SqlCommand ModifyCommand = new SqlCommand(procedureName, Connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            DataTable FeatureTable = new DataTable();
+            FeatureTable.Columns.Add("FeatureName", typeof(string));
+            FeatureTable.Columns.Add("Magnitude", typeof(int));
+
+            DataTable SkillTable = new DataTable();
+            SkillTable.Columns.Add("SkillName", typeof(string));
+            SkillTable.Columns.Add("Possible", typeof(int));
+
+
+            foreach(Skill skill in updatedRobot.SkillsList)
+            {
+                SkillTable.Rows.Add(skill.Name, skill.IsPossible);
+            }
+            foreach(Feature feat in updatedRobot.FeaturesList)
+            {
+                FeatureTable.Rows.Add(feat.Name, feat.Magnitude);
+            }
+
+            ModifyCommand.Parameters.Add(new SqlParameter("@RobotName", updatedRobot.Name));
+            ModifyCommand.Parameters.Add(new SqlParameter("@GroupName", updatedRobot.GroupName));
+            ModifyCommand.Parameters.Add(new SqlParameter("@FeatureTable", FeatureTable));
+            ModifyCommand.Parameters.Add(new SqlParameter("@SkillTable", SkillTable));
+
+
+            ModifyCommand.ExecuteNonQuery();
         }
 
         public bool Int2BoolConverter(int value)

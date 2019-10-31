@@ -24,6 +24,8 @@ namespace RobotManager
         public AddRobotWindow(RobotModel robotModel)
         {
             var NRviewModel = new NewRobotViewModel();
+            NRviewModel.CloseAction = new Action(this.Close);
+
             NRviewModel.NewRobot = new RobotModel(robotModel, false);
 
             DataContext = NRviewModel;

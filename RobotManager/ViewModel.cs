@@ -53,19 +53,19 @@ namespace RobotManager
                 Robots = SQLConnection.GetRobots();
                 SelectedRobot = Robots.ElementAt(0);
             }
-        
+            SQLConnection.Close();
 
 
 
 
-            //Robots = new List<RobotModel>();
-            //Robots.Add(new RobotModel("F10N4", "Transport", 1, 123412));
-            //Robots.Add(new RobotModel("P3DR0", "Cleaning", 0, 1232333));
-            //Robots.Add(new RobotModel("1544C", "Warehouse", 3, 9994333));
-            //SelectedRobot = Robots.ElementAt(0);
+        //Robots = new List<RobotModel>();
+        //Robots.Add(new RobotModel("F10N4", "Transport", 1, 123412));
+        //Robots.Add(new RobotModel("P3DR0", "Cleaning", 0, 1232333));
+        //Robots.Add(new RobotModel("1544C", "Warehouse", 3, 9994333));
+        //SelectedRobot = Robots.ElementAt(0);
 
 
-        }
+    }
 
         private void OnChangeName(object commandParameter)
         { 

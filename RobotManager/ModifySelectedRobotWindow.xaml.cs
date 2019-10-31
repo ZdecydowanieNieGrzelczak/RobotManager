@@ -26,7 +26,8 @@ namespace RobotManager
             {
                 BackupModel = selectedRobot,
                 SelectedModel = new RobotModel(selectedRobot, true),
-                IsDirty = false
+                IsDirty = false,
+                CloseAction = new Action(this.Close)
         };
 
             DataContext = MSRviewModel;
