@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -12,6 +13,13 @@ namespace RobotManager
 {
     class NewRobotViewModel : ViewModelBase
     {
+
+        private bool _RobotNamesError;
+        public bool RobotNamesError
+        {
+            get => _RobotNamesError;
+            set => SetProperty(ref _RobotNamesError, value);
+        }
 
         public Action CloseAction { get; set; }
 
@@ -31,9 +39,11 @@ namespace RobotManager
             set => SetProperty(ref _NewRobot, value);
         }
 
+        private ObservableCollection<RobotModel> _Robots;
 
-        private string[] _Names;
-        public string[] Names { get; set; }
+
+        //private string[] _Names;
+        //public string[] Names { get; set; }
 
         private readonly DelegateCommand _AddNewRobotCommand;
         public ICommand AddNewRobotCommand => _AddNewRobotCommand;
@@ -42,31 +52,49 @@ namespace RobotManager
         public ICommand SelectGroupCommand => _SelectGroupCommand;
 
 
-        public NewRobotViewModel()
+        public NewRobotViewModel(ObservableCollection<RobotModel> robots)
         {
             _AddNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddRobot);
             _SelectGroupCommand = new DelegateCommand(OnSelectGroup, CanSelectGroup);
-            //groups = new string[] { "None", "Cleaning department", "Warehouse", "Transport robot", "Packing robot" };
             _SQLConnection = new SQLMediator();
+            _NewRobot = new RobotModel(robots[0], false);
+            _Robots = robots;
+            _RobotNamesError = false;
         }
 
         private bool CanAddRobot(object commandParameter)
         {
-            //if(NewRobot.Name == null)
-            //{
-            //    return false;
-            //}
+        //    if (NewRobot.Name == null)
+        //    {
+        //        return false;
+        //    }
+        //    foreach (RobotModel robot in _Robots)
+        //    {
+        //        if(robot.Name == NewRobot.Name)
+        //        {
+        //            return false;
+        //        }
+        //    }
             return true;
         }
 
         private void OnAddNewRobot(object commandParameter)
         {
-
+            foreach (RobotModel robot in _Robots)
+            {
+                if (robot.Name == NewRobot.Name)
+                {
+                    RobotNamesError = true;
+                    return;
+                }
+            }
             _NewRobot.GroupID = _NewRobot.GroupsList.IndexOf(_NewRobot.GroupName);
             if (_SQLConnection.Connect())
             {
                 _SQLConnection.ModifyOrAddRobot(_NewRobot, "dbo.AddNewRobot");
                 _SQLConnection.Close();
+                _Robots.Add(_NewRobot);
+
             } else
             {
                 Console.WriteLine("Cannot connect to database!");

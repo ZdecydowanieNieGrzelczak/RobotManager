@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,12 @@ namespace RobotManager
 
         public SQLMediator SQLConnection;
 
+        private int _RobotIndex;
+        public int RobotIndex
+        {
+            get => _RobotIndex;
+            set => SetProperty(ref _RobotIndex, value);
+        }
 
         public Action CloseAction { get; set; }
 
@@ -23,11 +30,18 @@ namespace RobotManager
             set => SetProperty(ref _IsDirty, value);
         }
 
-        private RobotModel _BackupModel;
-        public RobotModel BackupModel
+        //private RobotModel _BackupModel;
+        //public RobotModel BackupModel
+        //{
+        //    get => _BackupModel;
+        //    set => SetProperty(ref _BackupModel, value);
+        //}
+
+        private ObservableCollection<RobotModel> _Robots;
+        public ObservableCollection<RobotModel> Robots
         {
-            get => _BackupModel;
-            set => SetProperty(ref _BackupModel, value);
+            get => _Robots;
+            set => SetProperty(ref _Robots, value);
         }
 
         private RobotModel _SelectedModel;
@@ -86,12 +100,14 @@ namespace RobotManager
 
         private void OnSaveRobotCommand(object commandParameter)
         {
-            _BackupModel = _SelectedModel;
-            _IsDirty = false;
+            //_BackupModel = _SelectedModel;
+            //_IsDirty = false;
             if (SQLConnection.Connect())
             {
                 SQLConnection.ModifyOrAddRobot(_SelectedModel, "dbo.UpdateRobots");
                 SQLConnection.Close();
+                _Robots.RemoveAt(_RobotIndex);
+                _Robots.Insert(_RobotIndex, _SelectedModel);
             }
             else
             {

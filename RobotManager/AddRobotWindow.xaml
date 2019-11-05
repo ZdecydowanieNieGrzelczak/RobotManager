@@ -5,7 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                      
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
         mc:Ignorable="d"
@@ -29,13 +28,20 @@
             <Setter Property="Height" Value="30"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <!--<Setter Property="ToggleSwitchButtonStyle"-->
-
         </Style>
         <Style x:Key="SkillCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
             <Setter Property="Background" Value="{Binding Path=IsPossible, Converter={StaticResource B2CConverter}}"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="DisabledOnErrors" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=NameBox, Path=(Validation.HasError)}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Command" Value="{Binding AddNewRobotCommand}"/>
+
         </Style>
     </Window.Resources>
 
@@ -54,9 +60,9 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Enter the name:" />
-                    <TextBox Grid.Row="1" CharacterCasing="Upper" Controls:TextBoxHelper.Watermark="All chars allowed">
+                    <TextBox Grid.Row="1" x:Name="NameBox" CharacterCasing="Upper" Controls:TextBoxHelper.Watermark="All chars allowed">
                         <TextBox.Text>
-                            <Binding Path="NewRobot.Name" ValidatesOnNotifyDataErrors="True"
+                            <Binding Path="NewRobot.Name"  ValidatesOnNotifyDataErrors="True"
                                 ValidatesOnDataErrors="True"
                                 NotifyOnValidationError="True"
                                      UpdateSourceTrigger="PropertyChanged">
@@ -64,8 +70,12 @@
                                     <local:NameValidationRule ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
                             </Binding>
-
                         </TextBox.Text>
+                        <!--<i:Interaction.Triggers >
+                            <i:EventTrigger EventName="KeyUp" >
+                                                           
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
                     </TextBox>
 
 
@@ -149,7 +159,7 @@
                     <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
                     <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
                     <TextBlock Text="{Binding NewRobot.GroupName}" Grid.Column="1" Grid.Row="1"/>
-                    <DataGrid IsReadOnly="True" ItemsSource="{Binding NewRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False">
+                    <DataGrid IsHitTestVisible="False" IsReadOnly="True" ItemsSource="{Binding NewRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Feature" Binding="{Binding Name}" />
                             <DataGridTemplateColumn Header="Value">
@@ -161,12 +171,16 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid IsReadOnly="True" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
+                    <DataGrid IsHitTestVisible="False" IsReadOnly="True" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                    <Button Margin="10, 10, 10, 10" Grid.Row="3" Grid.Column="1" Command="{Binding AddNewRobotCommand}" Content="Add new robot" VerticalAlignment="Center" />
+                    <Button Margin="10, 10, 10, 10" Grid.Row="3" Grid.Column="1"
+                            Style="{StaticResource DisabledOnErrors}" 
+                             Content="Add new robot" VerticalAlignment="Center">
+                    </Button>
+                    <TextBlock FontSize="15" Text="Cannot use duplicate names!" Visibility="{Binding NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, Path=RobotNamesError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVis}}" Grid.Row="3" Grid.Column="0" />
                 </Grid>
 
             </TabItem>

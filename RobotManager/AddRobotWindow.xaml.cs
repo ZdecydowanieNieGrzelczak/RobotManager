@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,12 +22,12 @@ namespace RobotManager
     /// </summary>
     public partial class AddRobotWindow : MetroWindow
     {
-        public AddRobotWindow(RobotModel robotModel)
+        public AddRobotWindow(ObservableCollection<RobotModel> robots)
         {
-            var NRviewModel = new NewRobotViewModel();
+            var NRviewModel = new NewRobotViewModel(robots);
             NRviewModel.CloseAction = new Action(this.Close);
 
-            NRviewModel.NewRobot = new RobotModel(robotModel, false);
+            //NRviewModel.NewRobot = new RobotModel(robotModel, false);
 
             DataContext = NRviewModel;
             InitializeComponent();

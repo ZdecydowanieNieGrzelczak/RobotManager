@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace RobotManager
 
 
 
-        public void GetSkillsList(List<RobotModel> robots)
+        public void GetSkillsList(ObservableCollection<RobotModel> robots)
         {
             foreach(RobotModel robot in robots)
             {
@@ -73,7 +74,7 @@ namespace RobotManager
         }
 
 
-        public void GetFeatureList(List<RobotModel> robotList)
+        public void GetFeatureList(ObservableCollection<RobotModel> robotList)
         {
             
             foreach(RobotModel robot in robotList)
@@ -106,7 +107,7 @@ namespace RobotManager
         {
 
 
-            SqlCommand deleteCommand = new SqlCommand("dbo.ExctractRobotFeaturesByName", Connection)
+            SqlCommand deleteCommand = new SqlCommand("dbo.DeleteRobot", Connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -143,9 +144,9 @@ namespace RobotManager
         }
 
 
-        public List<RobotModel> GetRobots()
+        public ObservableCollection<RobotModel> GetRobots()
         {
-            List<RobotModel> robotList = new List<RobotModel>();
+            ObservableCollection<RobotModel> robotList = new ObservableCollection<RobotModel>();
 
 
 

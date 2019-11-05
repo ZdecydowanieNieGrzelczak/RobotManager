@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         Closing="MetroWindow_Closing"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="MainWindow" Height="600" Width="800">
+        Title="Robot Manager" Height="600" Width="800">
     <!--<i:Interaction.Triggers>
         <i:EventTrigger >
             <i:InvokeCommandAction Command="{Binding Path=CloseWindowCommand}"/>
@@ -43,7 +43,7 @@
         
         <Button Content="Add new robot" Command="{Binding Path=AddNewRobotCommand}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="Modify selected robot" Command="{Binding Path=ModifySelectedRobotCommand}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-
+        <Button Content="Delete selected robot" Command="{Binding Path=DeleteSelectedRobotCommand}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
         <DataGrid IsReadOnly="True" ItemsSource="{Binding SelectedRobot.SkillsList}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}"/>

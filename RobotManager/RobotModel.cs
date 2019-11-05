@@ -196,25 +196,25 @@ namespace RobotManager
 
     public class NameValidationRule : ValidationRule
     {
-        public Regex regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+        public Regex regexItem = new Regex("^[a-zA-Z0-9]*$");
 
         public NameValidationRule()
         {
+
         }
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            try
+            if(value == null)
             {
-                if (regexItem.IsMatch((string)value))
-                {
-                    return ValidationResult.ValidResult;
-                }
+
+                return new ValidationResult(false, $"Cannot be left empty");
             }
-            catch (Exception e)
+            if (regexItem.IsMatch((string)value))
             {
-                return new ValidationResult(false, $"Exception: {e}" );
+                return ValidationResult.ValidResult;
             }
+
             return new ValidationResult(false, $"Please enter only letters and numbers!");
             
             

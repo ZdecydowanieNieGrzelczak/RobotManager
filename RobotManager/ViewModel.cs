@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -18,8 +19,8 @@ namespace RobotManager
             set => SetProperty(ref _SelectedRobot, value);
         }
 
-        private List<RobotModel> _Robots;
-        public List<RobotModel> Robots
+        private ObservableCollection<RobotModel> _Robots;
+        public ObservableCollection<RobotModel> Robots
         {
             get => _Robots;
             set => SetProperty(ref _Robots, value);
@@ -38,6 +39,9 @@ namespace RobotManager
         private readonly DelegateCommand _CloseWindowCommand;
         public ICommand CloseWindowCommand => _CloseWindowCommand;
 
+        private readonly DelegateCommand _DeleteSelectedRobotCommand;
+        public ICommand DeleteSelectedRobotCommand => _DeleteSelectedRobotCommand;
+
         public SQLMediator SQLConnection;
 
         public ViewModel()
@@ -46,6 +50,7 @@ namespace RobotManager
             _addNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddNewRobot);
             _ModifySelectedRobotCommand = new DelegateCommand(OnModifySelectedRobot, CanModifySelectedRobot);
             _CloseWindowCommand = new DelegateCommand(OnCloseWindowCommand, CanCloseWindow);
+            _DeleteSelectedRobotCommand = new DelegateCommand(OnDeleteRobotCommand, CanDeleteRobot);
 
             SQLConnection = new SQLMediator();
             if (SQLConnection.Connect())
@@ -56,13 +61,6 @@ namespace RobotManager
             SQLConnection.Close();
 
 
-
-
-        //Robots = new List<RobotModel>();
-        //Robots.Add(new RobotModel("F10N4", "Transport", 1, 123412));
-        //Robots.Add(new RobotModel("P3DR0", "Cleaning", 0, 1232333));
-        //Robots.Add(new RobotModel("1544C", "Warehouse", 3, 9994333));
-        //SelectedRobot = Robots.ElementAt(0);
 
 
     }
@@ -79,7 +77,7 @@ namespace RobotManager
 
         private void OnAddNewRobot(object commandParameter)
         {
-            AddRobotWindow addRobotWindow = new AddRobotWindow(SelectedRobot);
+            AddRobotWindow addRobotWindow = new AddRobotWindow(_Robots);
             addRobotWindow.Show();
         }
 
@@ -90,7 +88,8 @@ namespace RobotManager
 
         private void OnModifySelectedRobot(object commandParameter)
         {
-            ModifySelectedRobotWindow modifySelectedRobotWindow = new ModifySelectedRobotWindow(SelectedRobot);
+            int robotIndex = _Robots.IndexOf(_SelectedRobot);
+            ModifySelectedRobotWindow modifySelectedRobotWindow = new ModifySelectedRobotWindow(_Robots, robotIndex);
             modifySelectedRobotWindow.Show();
         }
 
@@ -108,6 +107,25 @@ namespace RobotManager
         private void OnCloseWindowCommand(object commandParameter)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void OnDeleteRobotCommand(object commandParameter)
+        {
+            if(_SelectedRobot == null)
+            {
+                return;
+            }
+            SQLConnection.Connect();
+            SQLConnection.DeleteRobot(_SelectedRobot.Name);
+            SQLConnection.Close();
+            _Robots.Remove(_SelectedRobot);
+            _SelectedRobot = null;
+            
+        }
+
+        private bool CanDeleteRobot(object commandParameter)
+        {
+            return _SelectedRobot != null;
         }
 
 

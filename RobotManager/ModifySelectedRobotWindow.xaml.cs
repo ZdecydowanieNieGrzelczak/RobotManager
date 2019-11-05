@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +21,17 @@ namespace RobotManager
     /// </summary>
     public partial class ModifySelectedRobotWindow : MetroWindow
     {
-        public ModifySelectedRobotWindow(RobotModel selectedRobot)
+        public ModifySelectedRobotWindow(ObservableCollection<RobotModel> robots, int robotIndex)
         {
             var MSRviewModel = new ModifySelectedRobotViewModel
             {
-                BackupModel = selectedRobot,
-                SelectedModel = new RobotModel(selectedRobot, true),
+                //BackupModel = selectedRobot,
+                Robots = robots,
+                SelectedModel = new RobotModel(robots[robotIndex], true),
+                RobotIndex = robotIndex,
                 IsDirty = false,
                 CloseAction = new Action(this.Close)
-        };
+             };
 
             DataContext = MSRviewModel;
             InitializeComponent();
