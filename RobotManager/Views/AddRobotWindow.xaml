@@ -7,20 +7,20 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
+        xmlns:converters="clr-namespace:RobotManager.Converters"
+        xmlns:validators="clr-namespace:RobotManager.Validators"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="MainWindow" Height="300" Width="400"
+        Title="Add new robot" Height="300" Width="400"
         ResizeMode="NoResize" BorderThickness="0" 
-        FocusManager.FocusedElement="{Binding ElementName=Split4Groups}"
         WindowStartupLocation="CenterScreen" GlowBrush="Black"
                       ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
 
     <Window.Resources>
-        <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
-        <local:NegateBooleanConverter x:Key="T2FConverter"/>
-        <local:BoolToColorConverter x:Key="B2CConverter" />
+        <converters:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
+        <converters:BoolToColorConverter x:Key="B2CConverter" />
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <local:NameValidationRule x:Key="NameValidator" />
+        <validators:NameValidationRule x:Key="NameValidator" />
         <Style x:Key="ToggleSwitches" TargetType="Controls:ToggleSwitch" BasedOn="{StaticResource {x:Type Controls:ToggleSwitch}}">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
@@ -67,15 +67,10 @@
                                 NotifyOnValidationError="True"
                                      UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
-                                    <local:NameValidationRule ValidatesOnTargetUpdated="True"/>
+                                    <validators:NameValidationRule ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
-                        <!--<i:Interaction.Triggers >
-                            <i:EventTrigger EventName="KeyUp" >
-                                                           
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
                     </TextBox>
 
 
@@ -83,15 +78,6 @@
 
                     <Label Grid.Row="2" Content="Currently selected group:" />
                     <Controls:SplitButton Name="Split4Groups" VerticalContentAlignment="Center" SelectedItem="{Binding NewRobot.GroupName}"  ItemsSource="{Binding NewRobot.GroupsList}" Grid.Row="3" >
-                        <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                --><!--<i:InvokeCommandAction Command="{Binding Path=SelectGroupCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:SplitButton}},  Path=SelectedIndex}"/>--><!--
-                                <i:InvokeCommandAction CommandParameter="1" Command="{Binding Path=SelectGroupCommand}" />
-
-
-
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
                     </Controls:SplitButton>
 
                 </Grid>
@@ -159,7 +145,7 @@
                     <TextBlock Text="{Binding NewRobot.Name}" Grid.Column="1" Grid.Row="0"/>
                     <TextBlock Text="Group name:" Grid.Column="0" Grid.Row="1"/>
                     <TextBlock Text="{Binding NewRobot.GroupName}" Grid.Column="1" Grid.Row="1"/>
-                    <DataGrid IsHitTestVisible="False" IsReadOnly="True" ItemsSource="{Binding NewRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False">
+                    <DataGrid Focusable="False" IsReadOnly="True" ItemsSource="{Binding NewRobot.FeaturesList}" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Feature" Binding="{Binding Name}" />
                             <DataGridTemplateColumn Header="Value">
@@ -171,7 +157,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid IsHitTestVisible="False" IsReadOnly="True" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
+                    <DataGrid IsReadOnly="True" Focusable="False" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding NewRobot.SkillsList}" HorizontalAlignment="Center"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}" />
                             </DataGrid.Columns>

@@ -8,13 +8,13 @@
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
+        xmlns:converters="clr-namespace:RobotManager.Converters"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="ModifySelectedRobotWindow" Height="450" Width="800">
+        Title="Modify Robot" Height="450" Width="800">
 
     <Window.Resources>
-        <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
-        <local:NegateBooleanConverter x:Key="T2FConverter"/>
+        <converters:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style x:Key="ToggleSwitches" TargetType="Controls:ToggleSwitch" BasedOn="{StaticResource {x:Type Controls:ToggleSwitch}}">
             <Setter Property="VerticalContentAlignment" Value="Center"/>

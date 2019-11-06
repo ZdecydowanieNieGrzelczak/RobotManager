@@ -23,7 +23,7 @@ namespace RobotManager
     {
         public MainWindow()
         {
-            var viewModel = new ViewModel();
+            var viewModel = new MainWindowViewModel();
 
 
             DataContext = viewModel;

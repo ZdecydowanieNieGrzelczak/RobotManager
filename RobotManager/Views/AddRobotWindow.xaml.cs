@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RobotManager.Converters;
 
 namespace RobotManager
 {
@@ -24,7 +25,7 @@ namespace RobotManager
     {
         public AddRobotWindow(ObservableCollection<RobotModel> robots)
         {
-            var NRviewModel = new NewRobotViewModel(robots);
+            var NRviewModel = new AddRobotViewModel(robots);
             NRviewModel.CloseAction = new Action(this.Close);
 
             //NRviewModel.NewRobot = new RobotModel(robotModel, false);

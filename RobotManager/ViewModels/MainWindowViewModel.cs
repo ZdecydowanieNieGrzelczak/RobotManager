@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace RobotManager
 {
-    public class ViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
 
         private RobotModel _SelectedRobot;
@@ -45,7 +45,7 @@ namespace RobotManager
 
         public SQLMediator SQLConnection;
 
-        public ViewModel()
+        public MainWindowViewModel()
         {
             _changeNameCommand = new DelegateCommand(OnChangeName, CanChangeName);
             _addNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddNewRobot);

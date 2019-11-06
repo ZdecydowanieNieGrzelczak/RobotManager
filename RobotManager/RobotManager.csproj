@@ -67,24 +67,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddRobotWindow.xaml.cs">
+    <Compile Include="Converters\BoolToColorConverter.cs" />
+    <Compile Include="Converters\MagnitudeToFeatureNameConverter.cs" />
+    <Compile Include="Models\Feature.cs" />
+    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\Skill.cs" />
+    <Compile Include="Validators\NameValidator.cs" />
+    <Compile Include="Views\AddRobotWindow.xaml.cs">
       <DependentUpon>AddRobotWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Connection.cs" />
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="ModifySelectedRobotViewModel.cs" />
-    <Compile Include="ModifySelectedRobotWindow.xaml.cs">
+    <Compile Include="Connection\Connection.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="ViewModels\ModifySelectedRobotViewModel.cs" />
+    <Compile Include="Views\ModifySelectedRobotWindow.xaml.cs">
       <DependentUpon>ModifySelectedRobotWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RobotModel.cs" />
-    <Compile Include="NewRobotViewModel.cs" />
-    <Compile Include="Robot.cs" />
-    <Compile Include="ViewModelBase.cs" />
-    <Page Include="AddRobotWindow.xaml">
+    <Compile Include="Models\RobotModel.cs" />
+    <Compile Include="ViewModels\AddRobotViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Page Include="Views\AddRobotWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -92,12 +97,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ModifySelectedRobotWindow.xaml">
+    <Page Include="Views\ModifySelectedRobotWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,5 +134,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

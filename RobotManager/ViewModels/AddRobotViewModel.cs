@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace RobotManager
 {
-    class NewRobotViewModel : ViewModelBase
+    class AddRobotViewModel : ViewModelBase
     {
 
         private bool _RobotNamesError;
@@ -53,7 +53,7 @@ namespace RobotManager
         public ICommand SelectGroupCommand => _SelectGroupCommand;
 
 
-        public NewRobotViewModel(ObservableCollection<RobotModel> robots)
+        public AddRobotViewModel(ObservableCollection<RobotModel> robots)
         {
             _AddNewRobotCommand = new DelegateCommand(OnAddNewRobot, CanAddRobot);
             _SelectGroupCommand = new DelegateCommand(OnSelectGroup, CanSelectGroup);
@@ -106,37 +106,6 @@ namespace RobotManager
             
         }
 
-    }
-
-
-
-    public class MagnitudeToFeatureNameConverter : IValueConverter
-    {
-        public string[] featureSymbols = new string[] { "None", "Very low", "Low", "Medium", "High", "Very high" };
-
-        public object Convert(
-            object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return featureSymbols[(int)value];
-        }
-
-        public object ConvertBack(
-            object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Array.IndexOf(featureSymbols, value);
-        }
-    }
-
-    public class NegateBooleanConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return !(bool)value;
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return !(bool)value;
-        }
     }
 
 }

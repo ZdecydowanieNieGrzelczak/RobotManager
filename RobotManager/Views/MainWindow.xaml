@@ -7,20 +7,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RobotManager"
+        xmlns:converters="clr-namespace:RobotManager.Converters"
+
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Closing="MetroWindow_Closing"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="Robot Manager" Height="600" Width="800">
-    <!--<i:Interaction.Triggers>
-        <i:EventTrigger >
-            <i:InvokeCommandAction Command="{Binding Path=CloseWindowCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>-->
 
     <Window.Resources>
-        <local:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
-        <local:BoolToColorConverter x:Key="B2CConverter" />
+        <converters:MagnitudeToFeatureNameConverter x:Key="M2FConverter"/>
+        <converters:BoolToColorConverter x:Key="B2CConverter" />
 
         <Style x:Key="SkillCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
             <Setter Property="Background" Value="{Binding Path=IsPossible, Converter={StaticResource B2CConverter}}"/>
@@ -40,7 +37,7 @@
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <Button Content="Add new robot" Command="{Binding Path=AddNewRobotCommand}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="Modify selected robot" Command="{Binding Path=ModifySelectedRobotCommand}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="Delete selected robot" Command="{Binding Path=DeleteSelectedRobotCommand}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" />
@@ -49,7 +46,7 @@
                 <DataGridTextColumn Header="Skill" Binding="{Binding Name}" CellStyle="{StaticResource SkillCell}"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <DataGrid IsReadOnly="True" SelectedItem="{Binding SelectedRobot}" ItemsSource="{Binding Robots}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
@@ -71,8 +68,6 @@
         </DataGrid>
 
     </Grid>
-
-
 
 
 </Controls:MetroWindow>

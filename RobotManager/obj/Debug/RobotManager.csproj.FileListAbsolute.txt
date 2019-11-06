@@ -1,12 +1,9 @@
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\RobotManager.exe.config
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\RobotManager.exe
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\RobotManager.pdb
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.csprojAssemblyReference.cache
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\MainWindow.g.cs
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\App.g.cs
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager_MarkupCompile.cache
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager_MarkupCompile.lref
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\MainWindow.baml
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.g.resources
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.Properties.Resources.resources
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.csproj.GenerateResource.cache
@@ -21,11 +18,7 @@ H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\MahApps.Metro.pdb
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\MahApps.Metro.xml
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\RobotManager.csproj.CopyComplete
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\App.baml
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\AddRobotWindow.g.cs
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\AddRobotWindow.baml
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\GeneratedInternalTypeHelper.g.cs
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\ModifySelectedRobotWindow.g.cs
-H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\ModifySelectedRobotWindow.baml
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\Microsoft.Expression.Interactions.dll
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\en\Microsoft.Expression.Interactions.resources.dll
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\es\Microsoft.Expression.Interactions.resources.dll
@@ -45,3 +38,9 @@ H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\ko\System.Windows.I
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\ru\System.Windows.Interactivity.resources.dll
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
 H:\stuff\C#\RobotManager\RobotManager\RobotManager\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\Views\AddRobotWindow.g.cs
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\Views\MainWindow.g.cs
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\Views\ModifySelectedRobotWindow.g.cs
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\Views\AddRobotWindow.baml
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\Views\MainWindow.baml
+H:\stuff\C#\RobotManager\RobotManager\RobotManager\obj\Debug\Views\ModifySelectedRobotWindow.baml
