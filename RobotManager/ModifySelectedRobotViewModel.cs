@@ -105,6 +105,7 @@ namespace RobotManager
                 SQLConnection.Close();
                 _Robots.RemoveAt(_RobotIndex);
                 _Robots.Insert(_RobotIndex, _SelectedModel);
+                //_Robots[_RobotIndex] = _SelectedModel;
             }
             else
             {

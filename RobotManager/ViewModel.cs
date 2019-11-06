@@ -79,7 +79,7 @@ namespace RobotManager
         private void OnAddNewRobot(object commandParameter)
         {
             AddRobotWindow addRobotWindow = new AddRobotWindow(_Robots);
-            addRobotWindow.Show();
+            addRobotWindow.ShowDialog();
         }
 
         private bool CanAddNewRobot(object commandParameter)
@@ -95,7 +95,8 @@ namespace RobotManager
             }
             int robotIndex = _Robots.IndexOf(_SelectedRobot);
             ModifySelectedRobotWindow modifySelectedRobotWindow = new ModifySelectedRobotWindow(_Robots, robotIndex);
-            modifySelectedRobotWindow.Show();
+            modifySelectedRobotWindow.ShowDialog();
+            SelectedRobot = _Robots.ElementAt(robotIndex);
         }
 
         private bool CanModifySelectedRobot(object commandParameter)
