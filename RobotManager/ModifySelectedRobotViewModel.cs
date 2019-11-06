@@ -94,14 +94,11 @@ namespace RobotManager
 
         private bool CanSaveRobot(object commandParameter)
         {
-            //return _IsDirty;
             return true;
         }
 
         private void OnSaveRobotCommand(object commandParameter)
         {
-            //_BackupModel = _SelectedModel;
-            //_IsDirty = false;
             if (SQLConnection.Connect())
             {
                 SQLConnection.ModifyOrAddRobot(_SelectedModel, "dbo.UpdateRobots");
@@ -111,7 +108,7 @@ namespace RobotManager
             }
             else
             {
-                Console.WriteLine("Cannot connect to modify robot!");
+                MessageBox.Show("Cannot connect to modify robot!");
             }
             CloseAction();
         }

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -64,17 +65,6 @@ namespace RobotManager
 
         private bool CanAddRobot(object commandParameter)
         {
-        //    if (NewRobot.Name == null)
-        //    {
-        //        return false;
-        //    }
-        //    foreach (RobotModel robot in _Robots)
-        //    {
-        //        if(robot.Name == NewRobot.Name)
-        //        {
-        //            return false;
-        //        }
-        //    }
             return true;
         }
 
@@ -84,7 +74,7 @@ namespace RobotManager
             {
                 if (robot.Name == NewRobot.Name)
                 {
-                    RobotNamesError = true;
+                    MessageBox.Show("Cannot add robot with duplicate name!", "Invalid name");
                     return;
                 }
             }
@@ -94,10 +84,13 @@ namespace RobotManager
                 _SQLConnection.ModifyOrAddRobot(_NewRobot, "dbo.AddNewRobot");
                 _SQLConnection.Close();
                 _Robots.Add(_NewRobot);
+                MessageBox.Show("Robot added!");
 
-            } else
+
+            }
+            else
             {
-                Console.WriteLine("Cannot connect to database!");
+                MessageBox.Show("Cannot connect to database!", "Database error");
             }
             CloseAction();
 

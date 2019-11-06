@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RobotManager
@@ -87,7 +88,11 @@ namespace RobotManager
         }
 
         private void OnModifySelectedRobot(object commandParameter)
-        {
+        {   
+            if(_SelectedRobot == null)
+            {
+                MessageBox.Show("Please select a robot first!", "Modify error");
+            }
             int robotIndex = _Robots.IndexOf(_SelectedRobot);
             ModifySelectedRobotWindow modifySelectedRobotWindow = new ModifySelectedRobotWindow(_Robots, robotIndex);
             modifySelectedRobotWindow.Show();
@@ -113,6 +118,7 @@ namespace RobotManager
         {
             if(_SelectedRobot == null)
             {
+                MessageBox.Show("Please select a robot first!", "Delete error");
                 return;
             }
             SQLConnection.Connect();
